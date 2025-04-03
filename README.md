@@ -1,13 +1,5 @@
 # 📌 Instruções para Rodar os Projetos
 
-## 📝 Informações dos Integrantes
-- **Luan Ferreira**: UC23200704  
-- **Tiago Assis**: UC23200154  
-- **Victor Davidson**: UC23201064  
-- **Yuri Araújo**: UC22201238  
-
----
-
 ## 🚀 Passos para Rodar os Projetos
 
 ### 🔹 1. Instalar as dependências
