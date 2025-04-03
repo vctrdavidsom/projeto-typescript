@@ -1,0 +1,13 @@
+# Ignorar dependências do Node.js
+node_modules/
+
+# Ignorar logs e caches
+*.log
+.cache/
+
+# Ignorar a pasta de builds
+dist/
+build/
+
+package-lock.json
+package.json
