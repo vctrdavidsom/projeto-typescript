@@ -9,13 +9,12 @@ Antes de iniciar os projetos, abra o terminal na pasta raiz e execute:
 npm install typescript ts-node sqlite3 typeorm readline-sync --save
 ```
 
-Isso garantirá que todas as bibliotecas necessárias sejam instaladas.
-
 ---
 
 ```sh
 npm install --save-dev @types/readline-sync
 ```
+Isso garantirá que todas as bibliotecas necessárias sejam instaladas.
 
 ---
 
