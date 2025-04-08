@@ -6,23 +6,20 @@
 Antes de iniciar os projetos, abra o terminal na pasta raiz e execute:
 
 ```sh
-npm install
+npm install typescript ts-node sqlite3 typeorm readline-sync --save
 ```
 
 Isso garantirá que todas as bibliotecas necessárias sejam instaladas.
 
 ---
 
-### 🔹 2. Instalar TypeScript e SQLite  
-Caso ainda não estejam instalados, adicione-os como dependências do projeto:
-
 ```sh
-npm install typescript ts-node sqlite3 typeorm readline-sync --save
+npm install --save-dev @types/readline-sync
 ```
 
 ---
 
-### 🔹 3. Comandos para Executar os Projetos  
+### 🔹 2. Comandos para Executar os Projetos  
 
 - Para **iniciar automaticamente o Projeto 2**, use:  
   ```sh
