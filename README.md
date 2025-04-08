@@ -17,8 +17,20 @@ npm install --save-dev @types/readline-sync
 Isso garantirá que todas as bibliotecas necessárias sejam instaladas.
 
 ---
+## 🛠 2. Configuração do `package.json`
+Certifique-se de que o arquivo `package.json` contém a seguinte configuração de scripts:
 
-### 🔹 2. Comandos para Executar os Projetos  
+```json
+"scripts": {
+  "start": "npx ts-node projeto2/src/cli/menu.ts",
+  "projeto1": "npx ts-node projeto1/src/cli/menu.ts",
+  "projeto2": "npx ts-node projeto2/src/cli/menu.ts"
+}
+```
+
+---
+
+### 🔹 3. Comandos para Executar os Projetos  
 
 - Para **iniciar automaticamente o Projeto 2**, use:  
   ```sh
@@ -35,15 +47,3 @@ Isso garantirá que todas as bibliotecas necessárias sejam instaladas.
 
 ---
 
-## 🛠 Configuração do `package.json`
-Certifique-se de que o arquivo `package.json` contém a seguinte configuração de scripts:
-
-```json
-"scripts": {
-  "start": "npx ts-node projeto2/src/cli/menu.ts",
-  "projeto1": "npx ts-node projeto1/src/cli/menu.ts",
-  "projeto2": "npx ts-node projeto2/src/cli/menu.ts"
-}
-```
-
----
