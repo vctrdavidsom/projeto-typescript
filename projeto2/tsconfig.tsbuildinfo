@@ -1,1 +1,0 @@
-{"root":["./src/data-source.ts","./src/cli/menu.ts","./src/models/Category.ts","./src/models/Product.ts","./src/services/CategoryService.ts","./src/services/ProductService.ts"],"errors":true,"version":"5.8.2"}
