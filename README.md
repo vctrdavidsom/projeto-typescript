@@ -26,7 +26,7 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 
 2. Navigate to the project directory:
    ```
-   cd nestjs-crud-app
+   cd nestjs-crud-app2
    ```
 
 3. Install the dependencies:
@@ -34,7 +34,7 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
    npm install
    ```
 
-# Configuração
+## Configuração
 O projeto já está configurado para usar o SQLite como banco de dados. O arquivo database.sqlite será criado automaticamente na raiz do projeto ao iniciar o servidor.
 
 Se desejar alterar a configuração do banco de dados, edite o arquivo src/app.module.ts na seção TypeOrmModule.forRoot.
@@ -45,7 +45,7 @@ Se desejar alterar a configuração do banco de dados, edite o arquivo src/app.m
 ```
 npm run start
 ```
-The application will be running on `http://localhost:3000`.
+O aplicativo será executado em `http://localhost:3000`.
 
 2. Interaja com o CLI (opcional): O projeto inclui um CLI para gerenciar produtos e categorias. Para iniciar o CLI, execute:
 ```
@@ -53,7 +53,7 @@ npm run cli
 ```
 O CLI permite criar, listar, buscar, atualizar e remover produtos e categorias diretamente pelo terminal.
 
-# Testando a API
+## Testando a API
 
 1. Use o arquivo routes.http: O arquivo routes.http contém exemplos de requisições para testar a API. Abra o arquivo no VS Code e use a extensão REST Client para enviar requisições.
 
@@ -83,4 +83,4 @@ API routes são definidas no arquivo `routes.http`. Você pode usar a extensão 
 
 ## License
 
-Este projeto está licenciado sob a licença MIT.
+Este projeto está licenciado sob a licença [MIT](/LICENSE).
