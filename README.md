@@ -16,6 +16,7 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 - [Node.js](https://nodejs.org/) (versão 16 ou superior)
 - [npm](https://www.npmjs.com/) (geralmente incluído com o Node.js)
 - [SQLite](https://www.sqlite.org/) (opcional, o banco de dados será criado automaticamente)
+- [NestJS](https://nestjs.com/)
 
 ## Installation
 
