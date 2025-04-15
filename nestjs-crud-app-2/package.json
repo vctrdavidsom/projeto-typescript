@@ -1,0 +1,40 @@
+{
+  "name": "nestjs-crud-app",
+  "version": "1.0.0",
+  "description": "A CRUD application for managing products and categories using NestJS.",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "nest start",
+    "build": "nest build",
+    "test": "jest",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "cli": "ts-node src/cli.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.17",
+    "@nestjs/core": "^11.0.17",
+    "@nestjs/platform-express": "^11.0.17",
+    "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.8.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "inquirer": "^8.2.6",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.0.17",
+    "@types/axios": "^0.9.36",
+    "@types/inquirer": "^9.0.7",
+    "jest": "^27.0.0",
+    "supertest": "^6.1.6",
+    "ts-jest": "^27.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.5.0"
+  },
+  "keywords": [],
+  "author": "Luan Ferreira",
+  "license": "MIT"
+}
