@@ -5,9 +5,8 @@ node_modules/
 *.log
 .cache/
 
-# Ignorar a pasta de builds
-dist/
-build/
+# Não ignore arquivos JSON e de configuração
+!*.json
 
-package-lock.json
-package.json
+# Não ignore o diretório dist
+!dist/

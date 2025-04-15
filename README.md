@@ -21,12 +21,12 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 
 1. **Clone o repositório:**
    ```bash
-   git clone <repository-url>
+   git clone <git@github.com:vctrdavidsom/Projeto-typescript.git>
    ```
 
-2. Navigate to the project directory:
+2. Navegue até o diretório do projeto::
    ```
-   cd nestjs-crud-app2
+   cd Projeto-typescript/nestjs-crud-app-2
    ```
 
 3. Install the dependencies:
@@ -47,7 +47,7 @@ npm run start
 ```
 O aplicativo será executado em `http://localhost:3000`.
 
-2. Interaja com o CLI (opcional): O projeto inclui um CLI para gerenciar produtos e categorias. Para iniciar o CLI, execute:
+2. Interaja com o CLI (opcional): O projeto inclui um CLI para gerenciar produtos e categorias. Para iniciar o CLI, abra outro terminal e execute:
 ```
 npm run cli
 ```
