@@ -11,8 +11,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const products_module_1 = require("./products/products.module");
 const categories_module_1 = require("./categories/categories.module");
-const product_entity_1 = require("./common/entities/product.entity");
-const category_entity_1 = require("./common/entities/category.entity");
+const usuarios_module_1 = require("./usuarios/usuarios.module");
+const pedidos_module_1 = require("./pedidos/pedidos.module");
+const entregas_module_1 = require("./entregas/entregas.module");
+const enderecos_module_1 = require("./enderecos/enderecos.module");
+const estabelecimentos_module_1 = require("./estabelecimentos/estabelecimentos.module");
+const cupons_module_1 = require("./cupons/cupons.module");
+const pagamentos_module_1 = require("./pagamentos/pagamentos.module");
+const itens_pedido_module_1 = require("./itens-pedido/itens-pedido.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -21,11 +27,19 @@ AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'sqlite',
                 database: 'database.sqlite',
-                entities: [product_entity_1.Product, category_entity_1.Category],
-                synchronize: true, // Apenas para desenvolvimento
+                entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                synchronize: true,
             }),
             products_module_1.ProductsModule,
             categories_module_1.CategoriesModule,
+            usuarios_module_1.UsuariosModule,
+            pedidos_module_1.PedidosModule,
+            entregas_module_1.EntregasModule,
+            enderecos_module_1.EnderecosModule,
+            estabelecimentos_module_1.EstabelecimentosModule,
+            cupons_module_1.CuponsModule,
+            pagamentos_module_1.PagamentosModule,
+            itens_pedido_module_1.ItensPedidoModule,
         ],
     })
 ], AppModule);

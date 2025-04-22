@@ -57,3 +57,95 @@ Content-Type: application/json
 }
 
 GET http://localhost:3000/categories
+
+### Entregas
+POST http://localhost:3000/entregas
+Content-Type: application/json
+
+{
+  "pedidoId": 1,
+  "status": "Em andamento",
+  "dataEntrega": "2025-04-30"
+}
+
+GET http://localhost:3000/entregas
+
+GET http://localhost:3000/entregas/1
+
+PUT http://localhost:3000/entregas/1
+Content-Type: application/json
+
+{
+  "status": "Concluído"
+}
+
+DELETE http://localhost:3000/entregas/1
+
+### Pagamentos
+POST http://localhost:3000/pagamentos
+Content-Type: application/json
+
+{
+  "pedidoId": 1,
+  "valor": 100.50,
+  "status": "Pendente"
+}
+
+GET http://localhost:3000/pagamentos
+
+GET http://localhost:3000/pagamentos/1
+
+PUT http://localhost:3000/pagamentos/1
+Content-Type: application/json
+
+{
+  "status": "Pago"
+}
+
+DELETE http://localhost:3000/pagamentos/1
+
+### Estabelecimentos
+POST http://localhost:3000/estabelecimentos
+Content-Type: application/json
+
+{
+  "nome": "Hortifruti Central",
+  "endereco": "Rua das Flores, 123",
+  "telefone": "123456789"
+}
+
+GET http://localhost:3000/estabelecimentos
+
+GET http://localhost:3000/estabelecimentos/1
+
+PUT http://localhost:3000/estabelecimentos/1
+Content-Type: application/json
+
+{
+  "nome": "Hortifruti Atualizado"
+}
+
+DELETE http://localhost:3000/estabelecimentos/1
+
+### Itens do Pedido
+POST http://localhost:3000/itens-pedido
+Content-Type: application/json
+
+{
+  "produtoId": 1,
+  "quantidade": 3,
+  "pedidoId": 1
+}
+
+GET http://localhost:3000/itens-pedido
+
+GET http://localhost:3000/itens-pedido/1
+
+PUT http://localhost:3000/itens-pedido/1
+Content-Type: application/json
+
+{
+  "quantidade": 5
+}
+
+DELETE http://localhost:3000/itens-pedido/1
