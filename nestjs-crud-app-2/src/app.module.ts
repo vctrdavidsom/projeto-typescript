@@ -1,5 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
@@ -13,12 +17,20 @@ import { ItensPedidoModule } from './itens-pedido/itens-pedido.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
+    TypeOrmModule.forRoot({
+      type: 'better-sqlite3',
+      database: join(__dirname, '..', 'database.sqlite'),
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: process.env.NODE_ENV !== 'production',
+    }),
+    // Módulos de autenticação primeiro
+    AuthModule,
+    UsersModule,
+    // Demais módulos
     ProductsModule,
     CategoriesModule,
     UsuariosModule,

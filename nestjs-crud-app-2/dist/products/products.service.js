@@ -24,28 +24,154 @@ let ProductsService = class ProductsService {
         this.categoryRepository = categoryRepository;
     }
     async create(createProductDto) {
-        const category = await this.categoryRepository.findOneBy({ id: createProductDto.categoryId });
-        if (!category)
-            throw new Error('Category not found');
-        const product = this.productRepository.create(Object.assign(Object.assign({}, createProductDto), { category }));
-        return this.productRepository.save(product);
+        var _a;
+        try {
+            // Verifica se já existe um produto com o mesmo nome
+            const existingProduct = await this.productRepository.findOne({
+                where: { name: createProductDto.name }
+            });
+            if (existingProduct) {
+                throw new common_1.ConflictException('Já existe um produto com este nome');
+            }
+            // Verifica se a categoria existe
+            const category = await this.categoryRepository.findOneBy({
+                id: createProductDto.categoryId
+            });
+            if (!category) {
+                throw new common_1.NotFoundException('Categoria não encontrada');
+            }
+            // Verifica se a data de validade é válida
+            if (createProductDto.expirationDate && createProductDto.expirationDate < new Date()) {
+                throw new common_1.BadRequestException('Data de validade não pode ser no passado');
+            }
+            const product = this.productRepository.create(Object.assign(Object.assign({}, createProductDto), { category, stockQuantity: createProductDto.stockQuantity || 0, isActive: (_a = createProductDto.isActive) !== null && _a !== void 0 ? _a : true }));
+            return await this.productRepository.save(product);
+        }
+        catch (error) {
+            if (error instanceof common_1.ConflictException ||
+                error instanceof common_1.NotFoundException ||
+                error instanceof common_1.BadRequestException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao criar produto: ' + error.message);
+        }
     }
-    findAll() {
-        return this.productRepository.find({ relations: ['category'] });
+    async findAll(options) {
+        try {
+            const queryBuilder = this.productRepository
+                .createQueryBuilder('product')
+                .leftJoinAndSelect('product.category', 'category');
+            if (options === null || options === void 0 ? void 0 : options.categoryId) {
+                queryBuilder.andWhere('category.id = :categoryId', { categoryId: options.categoryId });
+            }
+            if ((options === null || options === void 0 ? void 0 : options.isActive) !== undefined) {
+                queryBuilder.andWhere('product.isActive = :isActive', { isActive: options.isActive });
+            }
+            if ((options === null || options === void 0 ? void 0 : options.minPrice) !== undefined) {
+                queryBuilder.andWhere('product.price >= :minPrice', { minPrice: options.minPrice });
+            }
+            if ((options === null || options === void 0 ? void 0 : options.maxPrice) !== undefined) {
+                queryBuilder.andWhere('product.price <= :maxPrice', { maxPrice: options.maxPrice });
+            }
+            if (options === null || options === void 0 ? void 0 : options.search) {
+                queryBuilder.andWhere('(product.name LIKE :search OR product.description LIKE :search)', { search: `%${options.search}%` });
+            }
+            return await queryBuilder.getMany();
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Erro ao buscar produtos: ' + error.message);
+        }
     }
-    findOneByName(name) {
-        return this.productRepository.findOne({ where: { name }, relations: ['category'] });
+    async findOneByName(name) {
+        try {
+            const product = await this.productRepository.findOne({
+                where: { name },
+                relations: ['category']
+            });
+            if (!product) {
+                throw new common_1.NotFoundException(`Produto com nome "${name}" não encontrado`);
+            }
+            return product;
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao buscar produto: ' + error.message);
+        }
     }
     async updateByName(name, updateProductDto) {
-        const product = await this.findOneByName(name);
-        if (!product)
-            return null;
-        Object.assign(product, updateProductDto);
-        return this.productRepository.save(product);
+        try {
+            const product = await this.findOneByName(name);
+            if (updateProductDto.categoryId) {
+                const category = await this.categoryRepository.findOneBy({
+                    id: updateProductDto.categoryId
+                });
+                if (!category) {
+                    throw new common_1.NotFoundException('Categoria não encontrada');
+                }
+                product.category = category;
+            }
+            if (updateProductDto.expirationDate && updateProductDto.expirationDate < new Date()) {
+                throw new common_1.BadRequestException('Data de validade não pode ser no passado');
+            }
+            Object.assign(product, updateProductDto);
+            return await this.productRepository.save(product);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException || error instanceof common_1.BadRequestException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao atualizar produto: ' + error.message);
+        }
     }
     async removeByName(name) {
-        const result = await this.productRepository.delete({ name });
-        return result.affected ? result.affected > 0 : false;
+        try {
+            const product = await this.findOneByName(name);
+            const result = await this.productRepository.remove(product);
+            return !!result;
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao remover produto: ' + error.message);
+        }
+    }
+    async updateStock(name, quantity) {
+        try {
+            const product = await this.findOneByName(name);
+            if (product.stockQuantity + quantity < 0) {
+                throw new common_1.BadRequestException('Quantidade em estoque não pode ficar negativa');
+            }
+            product.stockQuantity += quantity;
+            return await this.productRepository.save(product);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException || error instanceof common_1.BadRequestException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao atualizar estoque: ' + error.message);
+        }
+    }
+    async updateRating(name, rating) {
+        try {
+            if (rating < 1 || rating > 5) {
+                throw new common_1.BadRequestException('Avaliação deve estar entre 1 e 5');
+            }
+            const product = await this.findOneByName(name);
+            const newRatingCount = product.ratingCount + 1;
+            const newRating = ((product.rating * product.ratingCount) + rating) / newRatingCount;
+            product.rating = newRating;
+            product.ratingCount = newRatingCount;
+            return await this.productRepository.save(product);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException || error instanceof common_1.BadRequestException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException('Erro ao atualizar avaliação: ' + error.message);
+        }
     }
 };
 ProductsService = __decorate([

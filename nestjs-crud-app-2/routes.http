@@ -1,151 +1,371 @@
-### Categories
-POST http://localhost:3000/categories
+@baseUrl = http://localhost:3000
+@authToken = your_auth_token_here
+
+### Authentication ###
+
+# Iniciar autenticação com Google
+GET {{baseUrl}}/auth/google
+
+# Callback da autenticação (não precisa chamar manualmente)
+GET {{baseUrl}}/auth/google/callback
+
+# Obter perfil do usuário autenticado
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{authToken}}
+
+### Products ###
+
+# Criar produto
+POST {{baseUrl}}/products
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "New Category",
-  "description": "Description of the new category"
-}
-
-GET http://localhost:3000/categories
-
-GET http://localhost:3000/categories/New Category
-
-PUT http://localhost:3000/categories/New Category
-Content-Type: application/json
-
-{
-  "name": "Updated Category",
-  "description": "Updated description"
-}
-
-DELETE http://localhost:3000/categories/Updated Category
-
-### Products
-POST http://localhost:3000/products
-Content-Type: application/json
-
-{
-  "name": "New Product",
-  "description": "Description of the new product",
-  "price": 100,
+  "name": "Maçã",
+  "description": "Maçã vermelha",
+  "price": 5.99,
+  "weight": 0.2,
+  "unit": "kg",
+  "stockQuantity": 100,
   "categoryId": 1
 }
 
-GET http://localhost:3000/products
+# Listar todos os produtos
+GET {{baseUrl}}/products
 
-GET http://localhost:3000/products/New Product
+# Listar produtos com filtros
+GET {{baseUrl}}/products?categoryId=1&isActive=true&minPrice=1&maxPrice=10&search=maçã
 
-PUT http://localhost:3000/products/New Product
+# Buscar produto por nome
+GET {{baseUrl}}/products/maçã
+
+# Atualizar produto
+PUT {{baseUrl}}/products/maçã
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "Updated Product",
-  "description": "Updated description",
-  "price": 150,
-  "categoryId": 1
+  "price": 6.99,
+  "stockQuantity": 150
 }
 
-DELETE http://localhost:3000/products/Updated Product
+# Remover produto
+DELETE {{baseUrl}}/products/maçã
+Authorization: Bearer {{authToken}}
 
-POST http://localhost:3000/categories
+# Atualizar estoque
+PUT {{baseUrl}}/products/maçã/stock
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "name": "New Category",
-  "description": "Description of the new category"
+  "quantity": 50
 }
 
-GET http://localhost:3000/categories
+# Atualizar avaliação
+PUT {{baseUrl}}/products/maçã/rating
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
 
-### Entregas
-POST http://localhost:3000/entregas
+{
+  "rating": 4.5
+}
+
+### Categories ###
+
+# Criar categoria
+POST {{baseUrl}}/categories
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Frutas",
+  "description": "Categoria de frutas"
+}
+
+# Listar categorias
+GET {{baseUrl}}/categories
+
+# Buscar categoria por nome
+GET {{baseUrl}}/categories/frutas
+
+# Atualizar categoria
+PUT {{baseUrl}}/categories/frutas
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Categoria de frutas frescas"
+}
+
+# Remover categoria
+DELETE {{baseUrl}}/categories/frutas
+Authorization: Bearer {{authToken}}
+
+### Users ###
+
+# Obter usuário por ID
+GET {{baseUrl}}/users/1
+Authorization: Bearer {{authToken}}
+
+# Atualizar usuário
+PUT {{baseUrl}}/users/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Novo Nome",
+  "lastName": "Novo Sobrenome"
+}
+
+# Remover usuário
+DELETE {{baseUrl}}/users/1
+Authorization: Bearer {{authToken}}
+
+### Pedidos ###
+
+# Criar pedido
+POST {{baseUrl}}/pedidos
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "usuarioId": 1,
+  "enderecoId": 1,
+  "itens": [
+    {
+      "produtoId": 1,
+      "quantidade": 2
+    }
+  ]
+}
+
+# Listar pedidos
+GET {{baseUrl}}/pedidos
+Authorization: Bearer {{authToken}}
+
+# Buscar pedido por ID
+GET {{baseUrl}}/pedidos/1
+Authorization: Bearer {{authToken}}
+
+# Atualizar pedido
+PUT {{baseUrl}}/pedidos/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "ENTREGUE"
+}
+
+# Remover pedido
+DELETE {{baseUrl}}/pedidos/1
+Authorization: Bearer {{authToken}}
+
+### Entregas ###
+
+# Criar entrega
+POST {{baseUrl}}/entregas
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
   "pedidoId": 1,
-  "status": "Em andamento",
-  "dataEntrega": "2025-04-30"
+  "entregadorId": 1,
+  "status": "EM_ANDAMENTO"
 }
 
-GET http://localhost:3000/entregas
+# Listar entregas
+GET {{baseUrl}}/entregas
+Authorization: Bearer {{authToken}}
 
-GET http://localhost:3000/entregas/1
+# Buscar entrega por ID
+GET {{baseUrl}}/entregas/1
+Authorization: Bearer {{authToken}}
 
-PUT http://localhost:3000/entregas/1
+# Atualizar entrega
+PUT {{baseUrl}}/entregas/1
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "status": "Concluído"
+  "status": "ENTREGUE"
 }
 
-DELETE http://localhost:3000/entregas/1
+# Remover entrega
+DELETE {{baseUrl}}/entregas/1
+Authorization: Bearer {{authToken}}
 
-### Pagamentos
-POST http://localhost:3000/pagamentos
+### Endereços ###
+
+# Criar endereço
+POST {{baseUrl}}/enderecos
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "rua": "Rua Exemplo",
+  "numero": "123",
+  "bairro": "Centro",
+  "cidade": "São Paulo",
+  "estado": "SP",
+  "cep": "01234-567"
+}
+
+# Listar endereços
+GET {{baseUrl}}/enderecos
+Authorization: Bearer {{authToken}}
+
+# Buscar endereço por ID
+GET {{baseUrl}}/enderecos/1
+Authorization: Bearer {{authToken}}
+
+# Atualizar endereço
+PUT {{baseUrl}}/enderecos/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "numero": "456"
+}
+
+# Remover endereço
+DELETE {{baseUrl}}/enderecos/1
+Authorization: Bearer {{authToken}}
+
+### Estabelecimentos ###
+
+# Criar estabelecimento
+POST {{baseUrl}}/estabelecimentos
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "nome": "Frutaria Central",
+  "endereco": "Rua das Frutas, 123",
+  "telefone": "(11) 1234-5678"
+}
+
+# Listar estabelecimentos
+GET {{baseUrl}}/estabelecimentos
+Authorization: Bearer {{authToken}}
+
+# Buscar estabelecimento por ID
+GET {{baseUrl}}/estabelecimentos/1
+Authorization: Bearer {{authToken}}
+
+# Atualizar estabelecimento
+PUT {{baseUrl}}/estabelecimentos/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "nome": "Frutaria Central Nova"
+}
+
+# Remover estabelecimento
+DELETE {{baseUrl}}/estabelecimentos/1
+Authorization: Bearer {{authToken}}
+
+### Cupons ###
+
+# Criar cupom
+POST {{baseUrl}}/cupons
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "codigo": "FRUTA10",
+  "desconto": 10,
+  "validade": "2024-12-31"
+}
+
+# Listar cupons
+GET {{baseUrl}}/cupons
+Authorization: Bearer {{authToken}}
+
+# Buscar cupom por ID
+GET {{baseUrl}}/cupons/1
+Authorization: Bearer {{authToken}}
+
+# Atualizar cupom
+PUT {{baseUrl}}/cupons/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "desconto": 15
+}
+
+# Remover cupom
+DELETE {{baseUrl}}/cupons/1
+Authorization: Bearer {{authToken}}
+
+### Pagamentos ###
+
+# Criar pagamento
+POST {{baseUrl}}/pagamentos
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
   "pedidoId": 1,
-  "valor": 100.50,
-  "status": "Pendente"
+  "valor": 50.99,
+  "metodo": "CARTAO_CREDITO",
+  "status": "APROVADO"
 }
 
-GET http://localhost:3000/pagamentos
+# Listar pagamentos
+GET {{baseUrl}}/pagamentos
+Authorization: Bearer {{authToken}}
 
-GET http://localhost:3000/pagamentos/1
+# Buscar pagamento por ID
+GET {{baseUrl}}/pagamentos/1
+Authorization: Bearer {{authToken}}
 
-PUT http://localhost:3000/pagamentos/1
+# Atualizar pagamento
+PUT {{baseUrl}}/pagamentos/1
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "status": "Pago"
+  "status": "CONCLUIDO"
 }
 
-DELETE http://localhost:3000/pagamentos/1
+# Remover pagamento
+DELETE {{baseUrl}}/pagamentos/1
+Authorization: Bearer {{authToken}}
 
-### Estabelecimentos
-POST http://localhost:3000/estabelecimentos
+### Itens Pedido ###
+
+# Criar item de pedido
+POST {{baseUrl}}/itens-pedido
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "nome": "Hortifruti Central",
-  "endereco": "Rua das Flores, 123",
-  "telefone": "123456789"
-}
-
-GET http://localhost:3000/estabelecimentos
-
-GET http://localhost:3000/estabelecimentos/1
-
-PUT http://localhost:3000/estabelecimentos/1
-Content-Type: application/json
-
-{
-  "nome": "Hortifruti Atualizado"
-}
-
-DELETE http://localhost:3000/estabelecimentos/1
-
-### Itens do Pedido
-POST http://localhost:3000/itens-pedido
-Content-Type: application/json
-
-{
+  "pedidoId": 1,
   "produtoId": 1,
-  "quantidade": 3,
-  "pedidoId": 1
+  "quantidade": 2,
+  "precoUnitario": 5.99
 }
 
-GET http://localhost:3000/itens-pedido
+# Listar itens de pedido
+GET {{baseUrl}}/itens-pedido
+Authorization: Bearer {{authToken}}
 
-GET http://localhost:3000/itens-pedido/1
+# Buscar item de pedido por ID
+GET {{baseUrl}}/itens-pedido/1
+Authorization: Bearer {{authToken}}
 
-PUT http://localhost:3000/itens-pedido/1
+# Atualizar item de pedido
+PUT {{baseUrl}}/itens-pedido/1
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "quantidade": 5
+  "quantidade": 3
 }
 
-DELETE http://localhost:3000/itens-pedido/1
+# Remover item de pedido
+DELETE {{baseUrl}}/itens-pedido/1
+Authorization: Bearer {{authToken}}
